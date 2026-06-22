@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AATERA LOOP Battery Recycling - Letterhead Editor</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CSS VARIABLES
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        :root {
+            --green-dark: #2e7d32;
+            --green-mid: #4caf50;
+            --green-light: #8bc34a;
+            --blue-dark: #095c2f;
+            --blue-mid: #009b33;
+            --blue-light: #7fcf93;
+            --white: #ffffff;
+            --gray-50: #f8faf9;
+            --gray-100: #f0f4f2;
+            --gray-200: #dde6e1;
+            --gray-400: #8fa89a;
+            --gray-600: #4a5e56;
+            --gray-800: #1e2d27;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .08);
+            --shadow-md: 0 4px 14px rgba(0, 0, 0, .10);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, .13);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #eaf1ee;
+            background-image: radial-gradient(circle at 15% 20%, rgba(9, 92, 47, .12) 0%, transparent 55%),
+                radial-gradient(circle at 85% 80%, rgba(0, 155, 51, .08) 0%, transparent 55%);
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TOOLBAR
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9000;
+            height: 54px;
+            background: #fff;
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 0 14px;
+            overflow-x: auto;
+            user-select: none;
+        }
+
+        .tb-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .tb-brand img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .tb-brand span {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--blue-dark);
+            white-space: nowrap;
+        }
+
+        .tb-sep {
+            width: 1px;
+            height: 26px;
+            background: var(--gray-200);
+            margin: 0 5px;
+            flex-shrink: 0;
+        }
+
+        .tb-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 9px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: background .12s, color .12s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tb-btn:hover {
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .tb-btn.active {
+            background: #e2f5e8;
+            color: var(--blue-dark);
+        }
+
+        .tb-btn svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .tb-btn.primary {
+            background: linear-gradient(135deg, var(--blue-mid), var(--blue-dark));
+            color: #fff;
+            padding: 5px 13px;
+        }
+
+        .tb-btn.primary:hover {
+            opacity: .9;
+        }
+
+        .tb-btn.danger {
+            color: #e53935;
+        }
+
+        .tb-btn.danger:hover {
+            background: #ffebee;
+        }
+
+        .tb-group {
+            display: flex;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .tb-group .tb-btn {
+            border-radius: 0;
+            border-right: 1px solid var(--gray-200);
+            padding: 5px 7px;
+        }
+
+        .tb-group .tb-btn:last-child {
+            border-right: none;
+        }
+
+        #zoom-val {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--gray-600);
+            min-width: 36px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .tb-spacer {
+            flex: 1;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CANVAS WRAP
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #canvas-wrap {
+            margin-top: 54px;
+            padding: 28px 24px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+            min-height: calc(100vh - 54px);
+        }
+
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   A4 PAGE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #page,
+        .extra-page {
+            width: 794px;
+            height: 1123px;
+            background: #fff;
+            position: relative;
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--gray-200);
+            border-radius: 2px;
+            overflow: hidden;
+            transform-origin: top center;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #page-guide {
+            position: absolute;
+            top: 17mm;
+            bottom: 17mm;
+            left: 17mm;
+            right: 17mm;
+            border: 1px dashed rgba(9, 92, 47, .22);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   HEADER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #lh-header {
+            width: 100%;
+            /* Brand colors: professional blue gradient */
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+            padding: 20px 26px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        #lh-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: 80px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .05);
+        }
+
+        #lh-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 30%;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(62, 169, 107, .12);
+        }
+
+        .hdr-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 2;
+        }
+
+        #logo-wrap {
+            width: 110px;
+            height: 70px;
+            flex-shrink: 0;
+            background: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: default;
+            position: relative;
+            padding: 6px 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
+
+        #logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+        }
+
+        .hdr-company {
+            z-index: 2;
+        }
+
+        .hdr-company h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .4px;
+            line-height: 1.2;
+        }
+
+        .hdr-tagline {
+            font-size: 9.5px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .68);
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        .hdr-right {
+            text-align: right;
+            z-index: 2;
+        }
+
+        .hdr-contact {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .88);
+            margin-bottom: 4px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .hdr-contact svg {
+            width: 10px;
+            height: 10px;
+            opacity: .75;
+            flex-shrink: 0;
+        }
+
+        /* Accent strip */
+        #hdr-strip {
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue-mid) 0%, var(--blue-light) 50%, var(--blue-mid) 100%);
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   DOC META
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #doc-meta {
+            padding: 16px 26px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .meta-label {
+            font-size: 8.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--gray-400);
+            margin-bottom: 2px;
+        }
+
+        .meta-val {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--gray-800);
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            width: 100%;
+            cursor: text;
+            padding: 1px 0;
+        }
+
+        .meta-val:focus {
+            border-bottom: 1.5px solid var(--blue-light);
+        }
+
+        .meta-right .meta-val {
+            text-align: right;
+        }
+
+        .page-rule {
+            margin: 4px 26px;
+            height: 1px;
+            background: var(--gray-200);
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LETTER BODY
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #letter-body {
+            padding: 14px 26px;
+            flex: 1;
+            overflow-y: auto;
+            outline: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            line-height: 1.8;
+            color: var(--gray-800);
+            caret-color: var(--blue-mid);
+            position: relative;
+            z-index: 2;
+        }
+
+        #letter-body:empty::before {
+            content: 'Start typing your letter hereâ€¦ Drag & drop or Ctrl+V to paste images.';
+            color: var(--gray-400);
+            font-style: italic;
+            pointer-events: none;
+        }
+
+        #letter-body p {
+            margin-bottom: .55em;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   SIGNATURE AREA (toggleable)
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #sig-area {
+            padding: 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            flex-shrink: 0;
+            page-break-inside: avoid;
+        }
+
+        .sig-block {
+            flex: 1;
+            max-width: 210px;
+        }
+
+        .sig-lbl {
+            font-size: 8.5px;
+            font-weight: 600;
+            color: var(--gray-400);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .sig-name,
+        .sig-title {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            width: 100%;
+            cursor: text;
+        }
+
+        .sig-name {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--gray-800);
+            border-bottom: 1px solid var(--gray-200);
+            padding-bottom: 2px;
+            margin-bottom: 3px;
+        }
+
+        .sig-name:focus {
+            border-bottom-color: var(--blue-light);
+            outline: none;
+        }
+
+        .sig-title {
+            font-size: 9px;
+            color: var(--gray-400);
+            font-style: italic;
+        }
+
+        .sig-title:focus {
+            outline: none;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FOOTER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #lh-footer {
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+            padding: 11px 26px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .ftr-eco {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .ftr-tag {
+            font-size: 8.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .ftr-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ftr-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+            color: rgba(255, 255, 255, .8);
+        }
+
+        .ftr-item svg {
+            width: 9px;
+            height: 9px;
+            opacity: .7;
+        }
+
+        .ftr-div {
+            width: 1px;
+            height: 11px;
+            background: rgba(255, 255, 255, .2);
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   WATERMARK
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+            display: block;
+            width: 320px;
+            height: 320px;
+        }
+
+        #watermark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FLOATING ELEMENTS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        .float-el {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+
+        .float-el.selected {
+            outline: 2px solid var(--blue-light);
+            outline-offset: 1px;
+        }
+
+        /* Resize handles */
+        .rh {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border: 2px solid var(--blue-mid);
+            border-radius: 50%;
+            z-index: 30;
+            display: none;
+        }
+
+        .float-el.selected .rh {
+            display: block;
+        }
+
+        .rh.nw {
+            top: -5px;
+            left: -5px;
+            cursor: nw-resize;
+        }
+
+        .rh.ne {
+            top: -5px;
+            right: -5px;
+            cursor: ne-resize;
+        }
+
+        .rh.sw {
+            bottom: -5px;
+            left: -5px;
+            cursor: sw-resize;
+        }
+
+        .rh.se {
+            bottom: -5px;
+            right: -5px;
+            cursor: se-resize;
+        }
+
+        .rh.n {
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: n-resize;
+        }
+
+        .rh.s {
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: s-resize;
+        }
+
+        .rh.w {
+            left: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: w-resize;
+        }
+
+        .rh.e {
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: e-resize;
+        }
+
+        /* Rotate handle */
+        .rot-h {
+            position: absolute;
+            top: -26px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 18px;
+            background: var(--blue-mid);
+            border-radius: 50%;
+            cursor: grab;
+            z-index: 30;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rot-h svg {
+            width: 11px;
+            height: 11px;
+            fill: #fff;
+            pointer-events: none;
+        }
+
+        .rot-h:active {
+            cursor: grabbing;
+        }
+
+        .float-el.selected .rot-h {
+            display: flex;
+        }
+
+        /* Delete handle */
+        .del-h {
+            position: absolute;
+            top: -26px;
+            right: 0;
+            width: 18px;
+            height: 18px;
+            background: #e53935;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 30;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .del-h svg {
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        .float-el.selected .del-h {
+            display: flex;
+        }
+
+        .float-img-el img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            pointer-events: none;
+        }
+
+        .float-txt-el {
+            min-width: 100px;
+            min-height: 36px;
+            background: rgba(255, 255, 255, .93);
+            border: 1px dashed var(--gray-200);
+            padding: 7px 9px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            line-height: 1.65;
+            color: var(--gray-800);
+            border-radius: 4px;
+        }
+
+        .float-txt-el[contenteditable="true"]:focus {
+            outline: none;
+            border-color: var(--blue-light);
+            background: #fff;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CONTEXT MENU
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        #ctx-menu {
+            position: fixed;
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            padding: 4px;
+            z-index: 99999;
+            display: none;
+            min-width: 155px;
+        }
+
+        .ctx-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 11px;
+            font-size: 12px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--gray-800);
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .ctx-item:hover {
+            background: var(--gray-100);
+        }
+
+        .ctx-item svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .ctx-item.danger {
+            color: #e53935;
+        }
+
+        .ctx-sep {
+            height: 1px;
+            background: var(--gray-200);
+            margin: 3px 0;
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MODAL (for toggleable sections)
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 99998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px 28px;
+            box-shadow: var(--shadow-lg);
+            min-width: 340px;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .modal-box h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--gray-800);
+        }
+
+        .modal-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .modal-row:last-child {
+            border-bottom: none;
+        }
+
+        .modal-label {
+            font-size: 12.5px;
+            color: var(--gray-600);
+        }
+
+        .modal-toggle {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .modal-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #ccc;
+            border-radius: 22px;
+            transition: background .2s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fff;
+            bottom: 3px;
+            left: 3px;
+            transition: transform .2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+        }
+
+        input:checked+.toggle-slider {
+            background: var(--blue-mid);
+        }
+
+        input:checked+.toggle-slider::before {
+            transform: translateX(18px);
+        }
+
+        .modal-close {
+            margin-top: 18px;
+            width: 100%;
+            padding: 9px;
+            background: var(--blue-dark);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: var(--blue-mid);
+        }
+
+        /* â•â•â•â•â•â•        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PRINT CSS
+ â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: none !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            #toolbar,
+            #status-bar,
+            #ctx-menu,
+            #export-overlay,
+            #page-guide,
+            .modal-overlay,
+            .rh,
+            .rot-h,
+            .del-h {
+                display: none !important;
+            }
+
+            #canvas-wrap {
+                display: block !important;
+                width: 100% !important;
+                margin-top: 0 !important;
+                padding: 0 !important;
+            }
+
+            #page,
+            .extra-page {
+                display: flex !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                box-shadow: none !important;
+                border: none !important;
+                outline: none !important;
+                border-radius: 0 !important;
+                transform: none !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                overflow: hidden !important;
+                margin: 0 auto !important;
+            }
+
+            #letter-body {
+                overflow: hidden !important;
+            }
+
+            .float-el {
+                outline: none !important;
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }show {
+            display: flex;
+        }
+
+        .export-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 36px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .export-box p {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 10px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gray-200);
+            border-top-color: var(--blue-mid);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PRINT CSS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                background: none !important;
+                margin: 0;
+                padding: 0;
+            }
+
+            #toolbar,
+            #status-bar,
+            #ctx-menu,
+            #export-overlay,
+            #page-guide,
+            .modal-overlay,
+            .rh,
+            .rot-h,
+            .del-h {
+                display: none !important;
+            }
+
+            #canvas-wrap {
+                margin-top: 0 !important;
+                padding: 0 !important;
+            }
+
+            #page,
+            .extra-page {
+                width: 210mm !important;
+                height: 297mm !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                transform: none !important;
+                page-break-after: always;
+                page-break-inside: avoid !important;
+                overflow: hidden !important;
+                margin-bottom: 0 !important;
+            }
+
+            #letter-body {
+                overflow: hidden !important;
+            }
+
+            .float-el {
+                outline: none !important;
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• TOOLBAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div id="toolbar">
+
+        <div class="tb-brand">
+            <img src="logo.png"
+                alt="Logo">
+            <span>Letterhead Editor</span>
+        </div>
+
+        <div class="tb-sep"></div>
+
+        <!-- Image -->
+        <button class="tb-btn" onclick="document.getElementById('file-input').click()" title="Upload image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <path d="M21 15l-5-5L5 21" />
+            </svg> Image
+        </button>
+
+
+
+        <!-- Text box -->
+        <button class="tb-btn" onclick="addTextBox()" title="Add text box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 6H3M21 12H3M15 18H3" />
+            </svg> Text Box
+        </button>
+
+        <!-- Add Page -->
+        <button class="tb-btn" onclick="addPage()" title="Add new page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="12" y1="18" x2="12" y2="12"></line>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg> Add Page
+        </button>
+
+        <!-- Delete Page -->
+        <button class="tb-btn" onclick="deletePage()" title="Delete last page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg> Delete Page
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <!-- Alignment group -->
+        <div class="tb-group" title="Align selected element">
+            <button class="tb-btn" onclick="alignEl('left')" title="Left">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M3 12h12M3 18h15" />
+                </svg>
+            </button>
+            <button class="tb-btn" onclick="alignEl('center')" title="Center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M6 12h12M4 18h16" />
+                </svg>
+            </button>
+            <button class="tb-btn" onclick="alignEl('right')" title="Right">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M9 12h12M6 18h15" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Layer -->
+        <button class="tb-btn" onclick="layerEl('up')" title="Bring forward">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                    d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v6m0 0H5m4 0h10m0 0v10a2 2 0 01-2 2h-4m-4 0H5a2 2 0 01-2-2v-4" />
+            </svg>
+            Forward
+        </button>
+        <button class="tb-btn" onclick="layerEl('down')" title="Send backward">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 21H5a2 2 0 01-2-2v-10M15 21h4a2 2 0 002-2v-4m0 0H9M19 15V5a2 2 0 00-2-2H9m0 0v10" />
+            </svg>
+            Backward
+        </button>
+
+        <!-- Delete selected -->
+        <button class="tb-btn danger" onclick="deleteSelected()" title="Delete selected (Del)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14H6L5 6" />
+                <path d="M10 11v6M14 11v6" />
+                <path d="M9 6V4h6v2" />
+            </svg>
+            Delete
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <!-- Toggles -->
+        <button class="tb-btn active" id="wm-btn" onclick="toggleWatermark()" title="Watermark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            Watermark
+        </button>
+        <button class="tb-btn active" id="guide-btn" onclick="toggleGuides()" title="Margin guides">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3h18v18H3zM3 9h18M9 3v18" />
+            </svg>
+            Guides
+        </button>
+
+        <!-- Layout sections toggle -->
+        <button class="tb-btn" onclick="openLayoutModal()" title="Toggle sections">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            Sections
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <!-- Undo / Redo -->
+        <button class="tb-btn" onclick="doUndo()" title="Undo (Ctrl+Z)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 7v6h6" />
+                <path d="M21 17a9 9 0 00-9-9 9 9 0 00-6 2.3L3 13" />
+            </svg>
+            Undo
+        </button>
+        <button class="tb-btn" onclick="doRedo()" title="Redo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 7v6h-6" />
+                <path d="M3 17a9 9 0 019-9 9 9 0 016 2.3L21 13" />
+            </svg>
+            Redo
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <!-- Zoom -->
+        <button class="tb-btn" onclick="zoomPage(-0.1)" title="Zoom out">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35M8 11h6" />
+            </svg>
+        </button>
+        <span id="zoom-val">100%</span>
+        <button class="tb-btn" onclick="zoomPage(0.1)" title="Zoom in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
+            </svg>
+        </button>
+
+        <div class="tb-spacer"></div>
+
+        <!-- Export PDF -->
+        <button class="tb-btn primary" onclick="exportPDF()" title="Export PDF (Ctrl+P)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <path d="M12 18v-6M9 15l3 3 3-3" />
+            </svg>
+            PDF
+        </button>
+
+        <!-- Export DOC -->
+        <button class="tb-btn" style="background:linear-gradient(135deg,#1565c0,#0d3b6e);color:#fff;padding:5px 13px;"
+            onclick="exportDOC()" title="Export Word Document">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <path d="M8 13h2l2 5 2-5h2" />
+            </svg>
+            DOC
+        </button>
+
+    </div>
+    <!-- END TOOLBAR -->
+
+    <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileInput(event)">
+    <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="handleLogoInput(event)">
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CANVAS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div id="canvas-wrap">
+
+
+        <div id="page">
+            <div id="watermark">
+                <img src="logo.png" alt="Watermark">
+            </div>
+            <div id="page-guide"></div>
+
+            <!-- HEADER -->
+            <header id="lh-header">
+                <div class="hdr-left">
+                    <div id="logo-wrap">
+                        <img id="logo-img"
+                            src="logo.png"
+                            alt="AATERA LOOP Battery Recycling Logo">
+                    </div>
+                    <div class="hdr-company">
+                        <h1>AATERA LOOP Battery Recycling</h1>
+                        <div class="hdr-tagline">Battery Recycling</div>
+                    </div>
+                </div>
+                <div class="hdr-right">
+                    <div class="hdr-contact">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        RA08 TC05, JAFZA, Dubai, UAE
+                    </div>
+                    <div class="hdr-contact">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014 5.18 2 2 0 016 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L10.09 10a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 17z" />
+                        </svg>
+                        +971 543252882
+                    </div>
+                    <div class="hdr-contact">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        info@aatera.com
+                    </div>
+                    <div class="hdr-contact">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                        </svg>
+                        www.aatera.com
+                    </div>
+                </div>
+            </header>
+            <div id="hdr-strip"></div>
+
+            <!-- DOC META -->
+            <div id="doc-meta">
+                <div>
+                    <div class="meta-label">To</div>
+                    <input class="meta-val" id="meta-to" type="text" placeholder="Recipient name / company">
+                    <div class="meta-label" style="margin-top:7px">Subject</div>
+                    <input class="meta-val" id="meta-subject" type="text" placeholder="Letter subject / RE:">
+                </div>
+                <div class="meta-right">
+                    <div class="meta-label">Date</div>
+                    <input class="meta-val" id="meta-date" type="text" style="width:120px" placeholder="DD/MM/YYYY">
+                    <div class="meta-label" style="margin-top:7px">Ref. No.</div>
+                    <input class="meta-val" id="meta-ref" type="text" style="width:120px" placeholder="RR-2025-0001">
+                </div>
+            </div>
+            <div class="page-rule"></div>
+
+            <!-- LETTER BODY -->
+            <div id="letter-body" contenteditable="true" spellcheck="true">
+                <p>Dear Sir/Madam,</p>
+                <p><br></p>
+                <p>We are pleased to write to you on behalf of <strong>AATERA LOOP Battery Recycling</strong>, a leading
+                    battery recycling company operating from the Jebel Ali Free Zone (JAFZA), Dubai, UAE.
+                </p>
+                <p><br></p>
+                <p>[Write your letter content hereâ€¦]</p>
+                <p><br></p>
+                <p>We look forward to a mutually beneficial relationship and remain at your disposal for any further
+                    inquiries.</p>
+                <p><br></p>
+                <p>Yours sincerely,</p>
+                <p><br></p>
+
+                <!-- SIGNATURE AREA -->
+                <div id="sig-area" contenteditable="false">
+                    <div class="sig-block">
+                        <div class="sig-lbl">Authorized Signatory</div>
+                        <input class="sig-name" type="text" placeholder="Full Name">
+                        <input class="sig-title" type="text" placeholder="Designation · AATERA LOOP Battery Recycling">
+                    </div>
+                    <div class="sig-block">
+                        <div class="sig-lbl">On Behalf Of</div>
+                        <input class="sig-name" type="text" value="AATERA LOOP Battery Recycling" readonly>
+                        <input class="sig-title" type="text" value="RA08 TC05, JAFZA, Dubai, UAE" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <footer id="lh-footer">
+                <div class="ftr-eco">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)"
+                        stroke-width="1.5">
+                        <path d="M12 2C8 2 4 6 4 12s4 10 8 10 8-4 8-10S16 2 12 2z" />
+                        <path d="M8 16c1.5-3 5-8 9-8-1.5 3-5 8-9 8z" fill="rgba(255,255,255,.4)" />
+                    </svg>
+                    <span class="ftr-tag">Committed to a greener tomorrow</span>
+                </div>
+                <div class="ftr-links">
+                    <div class="ftr-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                        </svg>
+                        www.aatera.com
+                    </div>
+                    <div class="ftr-div"></div>
+                    <div class="ftr-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        info@aatera.com
+                    </div>
+                    <div class="ftr-div"></div>
+                    <div class="ftr-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014 5.18 2 2 0 016 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L10.09 10a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 17z" />
+                        </svg>
+                        +971 543252882
+                    </div>
+                    <div class="ftr-div"></div>
+                    <div class="ftr-item page-num-indicator"
+                        style="font-weight:600; letter-spacing:1px; margin-left:10px;">
+                        <span class="pg-curr">1</span> / <span class="pg-total">1</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• CONTEXT MENU â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div id="ctx-menu">
+        <div class="ctx-item" onclick="ctxDo('left')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M3 6h18M3 12h12M3 18h15" />
+            </svg>Align Left</div>
+        <div class="ctx-item" onclick="ctxDo('center')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M3 6h18M6 12h12M4 18h16" />
+            </svg>Align Center</div>
+        <div class="ctx-item" onclick="ctxDo('right')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M3 6h18M9 12h12M6 18h15" />
+            </svg>Align Right</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item" onclick="ctxDo('fwd')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <rect x="3" y="8" width="13" height="13" rx="1" />
+                <path d="M8 8V5a1 1 0 011-1h10a1 1 0 011 1v10a1 1 0 01-1 1h-3" />
+            </svg>Bring Forward</div>
+        <div class="ctx-item" onclick="ctxDo('bwd')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <rect x="8" y="3" width="13" height="13" rx="1" />
+                <path d="M16 16v3a1 1 0 01-1 1H5a1 1 0 01-1-1V9a1 1 0 011-1h3" />
+            </svg>Send Backward</div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-item danger" onclick="ctxDo('del')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2" />
+            </svg>Delete</div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• LAYOUT MODAL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <div class="modal-overlay" id="layout-modal">
+        <div class="modal-box">
+            <h3>Toggle Page Sections</h3>
+            <div class="modal-row">
+                <span class="modal-label">ðŸ“‹ Document Meta (To / Subject / Date / Ref)</span>
+                <label class="modal-toggle"><input type="checkbox" id="tog-meta" checked
+                        onchange="toggleSection('doc-meta',this)"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="modal-row">
+                <span class="modal-label">âœï¸ Signature Area</span>
+                <label class="modal-toggle"><input type="checkbox" id="tog-sig" checked
+                        onchange="toggleSection('sig-area',this)"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="modal-row">
+                <span class="modal-label">ðŸ”– Page Rule (divider line)</span>
+                <label class="modal-toggle"><input type="checkbox" id="tog-rule" checked
+                        onchange="toggleSection('page-rule-el',this)"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="modal-row">
+                <span class="modal-label">ðŸŒ¿ Watermark</span>
+                <label class="modal-toggle"><input type="checkbox" id="tog-wm" checked onchange="toggleWatermark()"><span
+                        class="toggle-slider"></span></label>
+            </div>
+            <div class="modal-row">
+                <span class="modal-label">ðŸ“ Margin Guides</span>
+                <label class="modal-toggle"><input type="checkbox" id="tog-guide" checked
+                        onchange="toggleGuides()"><span class="toggle-slider"></span></label>
+            </div>
+            <button class="modal-close" onclick="closeLayoutModal()">Done</button>
+        </div>
+    </div>
+
+    <!-- Export overlay -->
+    <div id="export-overlay">
+        <div class="export-box">
+            <div class="spinner"></div>
+            <p id="export-msg">Preparing exportâ€¦</p>
+        </div>
+    </div>
+
+    <!-- Status bar -->
+    <div id="status-bar">
+        <div class="st-item">
+            <div class="st-dot"></div>A4 Â· 210 Ã— 297 mm
+        </div>
+        <div class="st-item">Ctrl+V paste image Â· Drag &amp; Drop Â· Del = delete</div>
+        <div class="st-item" id="st-el" style="margin-left:auto">No element selected</div>
+        <div class="st-item" id="st-zoom">100%</div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  JAVASCRIPT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <script>
+        /* â”€â”€â”€ STATE â”€â”€â”€ */
+        let selectedEl = null;
+        let currentZoom = 1;
+        let watermarkOn = true;
+        let guidesOn = true;
+        let undoStack = [];
+        let redoStack = [];
+        let zTop = 10;
+
+        const page = document.getElementById('page');
+        const ctxMenu = document.getElementById('ctx-menu');
+
+        /* â”€â”€â”€ INIT â”€â”€â”€ */
+        (function init() {
+            const d = new Date();
+            const p = n => String(n).padStart(2, '0');
+            document.getElementById('meta-date').value = p(d.getDate()) + '/' + p(d.getMonth() + 1) + '\/' + d.getFullYear();
+        })();
+
+        /* â”€â”€â”€ LOGO CHANGE â”€â”€â”€ */
+        function handleLogoInput(e) {
+            const file = e.target.files[0]; if (!file) return;
+            const r = new FileReader();
+            r.onload = ev => { document.getElementById('logo-img').src = ev.target.result; };
+            r.readAsDataURL(file);
+            e.target.value = '';
+        }
+
+        /* â”€â”€â”€ ZOOM â”€â”€â”€ */
+        function zoomPage(delta) {
+            currentZoom = Math.min(2, Math.max(0.35, currentZoom + delta));
+            page.style.transform = 'scale(' + currentZoom + ')';
+            const pct = Math.round(currentZoom * 100) + '%';
+            document.getElementById('zoom-val').textContent = pct;
+            document.getElementById('st-zoom').textContent = pct;
+        }
+
+        /* â”€â”€â”€ WATERMARK â”€â”€â”€ */
+        function toggleWatermark() {
+            watermarkOn = !watermarkOn;
+            document.querySelectorAll('[id="watermark"]').forEach(el => el.style.display = watermarkOn ? 'block' : 'none');
+            document.getElementById('wm-btn').classList.toggle('active', watermarkOn);
+            // sync modal checkbox
+            const cb = document.getElementById('tog-wm');
+            if (cb) cb.checked = watermarkOn;
+        }
+
+        /* â”€â”€â”€ GUIDES â”€â”€â”€ */
+        function toggleGuides() {
+            guidesOn = !guidesOn;
+            document.querySelectorAll('[id="page-guide"]').forEach(el => el.style.display = guidesOn ? 'block' : 'none');
+            document.getElementById('guide-btn').classList.toggle('active', guidesOn);
+            const cb = document.getElementById('tog-guide');
+            if (cb) cb.checked = guidesOn;
+        }
+
+        /* â”€â”€â”€ SECTION TOGGLE â”€â”€â”€ */
+        function toggleSection(id, cb) {
+            let selector = id === 'page-rule-el' ? '.page-rule' : `[id="${id}"]`;
+            const els = document.querySelectorAll(selector);
+            els.forEach(el => el.style.display = cb.checked ? '' : 'none');
+        }
+
+        /* â”€â”€â”€ LAYOUT MODAL â”€â”€â”€ */
+        function openLayoutModal() { document.getElementById('layout-modal').classList.add('open'); }
+        function closeLayoutModal() { document.getElementById('layout-modal').classList.remove('open'); }
+
+        /* â”€â”€â”€ FILE INPUT â”€â”€â”€ */
+        function handleFileInput(e) {
+            const file = e.target.files[0]; if (!file) return;
+            insertImageFile(file);
+            e.target.value = '';
+        }
+
+        /* â”€â”€â”€ INSERT IMAGE â”€â”€â”€ */
+        function insertImageFile(file, x, y) {
+            const r = new FileReader();
+            r.onload = ev => createFloatImage(ev.target.result, x, y);
+            r.readAsDataURL(file);
+        }
+
+        function createFloatImage(src, x, y) {
+            const px = (x !== undefined) ? x : 180;
+            const py = (y !== undefined) ? y : 300;
+            const el = document.createElement('div');
+            el.className = 'float-el float-img-el';
+            el.style.cssText = 'left:' + px + 'px;top:' + py + 'px;width:200px;height:150px;z-index:' + (++zTop);
+            const img = document.createElement('img');
+            img.src = src; img.draggable = false;
+            el.appendChild(img);
+            addHandles(el);
+            attachBehavior(el);
+            const targetPage = document.activeElement && document.activeElement.closest('.extra-page, #page')
+                ? document.activeElement.closest('.extra-page, #page')
+                : page;
+            targetPage.appendChild(el);
+            selectEl(el);
+            saveUndo();
+        }
+
+
+
+        /* â”€â”€â”€ ADD TEXT BOX â”€â”€â”€ */
+        function addTextBox(x, y) {
+            const px = (x !== undefined) ? x : 140;
+            const py = (y !== undefined) ? y : 420;
+            const el = document.createElement('div');
+            el.className = 'float-el float-txt-el';
+            el.contentEditable = 'true';
+            el.spellcheck = true;
+            el.textContent = 'Edit this textâ€¦';
+            el.style.cssText = 'left:' + px + 'px;top:' + py + 'px;width:220px;min-height:46px;z-index:' + (++zTop);
+            addHandles(el);
+            attachBehavior(el);
+            const targetPage = document.activeElement && document.activeElement.closest('.extra-page, #page')
+                ? document.activeElement.closest('.extra-page, #page')
+                : page;
+            targetPage.appendChild(el);
+            selectEl(el);
+            el.focus();
+            saveUndo();
+        }
+
+        /* â”€â”€â”€ ADD PAGE â”€â”€â”€ */
+        let pageCount = 1;
+        function addPage() {
+            pageCount++;
+            const newPage = document.createElement('div');
+            newPage.className = 'extra-page';
+            newPage.id = 'page-' + pageCount;
+
+            const originalPage = document.getElementById('page');
+            newPage.innerHTML = originalPage.innerHTML;
+
+            // Clear the letter body
+            const newBody = newPage.querySelector('[id="letter-body"]');
+            if (newBody) {
+                newBody.innerHTML = '<p><br></p>';
+            }
+
+            // Clear the floating elements inside the new page
+            const floatEls = newPage.querySelectorAll('.float-el');
+            floatEls.forEach(el => el.remove());
+
+            // Update toggle state for watermark/guides based on current state
+            const wm = newPage.querySelector('[id="watermark"]');
+            if (wm) wm.style.display = watermarkOn ? 'block' : 'none';
+            const guide = newPage.querySelector('[id="page-guide"]');
+            if (guide) guide.style.display = guidesOn ? 'block' : 'none';
+
+            document.getElementById('canvas-wrap').appendChild(newPage);
+            saveUndo();
+            updatePageNumbers();
+        }
+
+        /* â”€â”€â”€ DELETE PAGE â”€â”€â”€ */
+        function deletePage() {
+            const extraPages = document.querySelectorAll('.extra-page');
+            if (extraPages.length > 0) {
+                const lastPage = extraPages[extraPages.length - 1];
+                lastPage.remove();
+                saveUndo();
+                updatePageNumbers();
+            } else {
+                alert("Cannot delete the first page.");
+            }
+        }
+
+        /* â”€â”€â”€ UPDATE PAGE NUMBERS â”€â”€â”€ */
+        function updatePageNumbers() {
+            const pages = document.querySelectorAll('.extra-page, #page');
+            const total = pages.length;
+            pages.forEach((p, i) => {
+                const currEl = p.querySelector('.pg-curr');
+                const totalEl = p.querySelector('.pg-total');
+                if (currEl) currEl.textContent = i + 1;
+                if (totalEl) totalEl.textContent = total;
+            });
+        }
+
+        /* â”€â”€â”€ AUTO PAGINATION â”€â”€â”€ */
+        function autoPaginate() {
+            let savedSel = null;
+            const sel = window.getSelection();
+            if (sel.rangeCount > 0) {
+                const r = sel.getRangeAt(0);
+                savedSel = { sc: r.startContainer, so: r.startOffset, ec: r.endContainer, eo: r.endOffset };
+            }
+
+            let changed = false;
+
+            for (let i = 0; i < document.querySelectorAll('#page, .extra-page').length; i++) {
+                const pages = document.querySelectorAll('#page, .extra-page');
+                const p = pages[i];
+                const body = p.querySelector('[id="letter-body"]');
+                if (!body) continue;
+
+                // Push down
+                while (body.scrollHeight > body.clientHeight) {
+                    let last = body.lastChild;
+                    if (!last || body.childNodes.length <= 1) break;
+
+                    if (i === document.querySelectorAll('#page, .extra-page').length - 1) {
+                        addPage();
+                    }
+                    const nextPages = document.querySelectorAll('#page, .extra-page');
+                    const nextBody = nextPages[i + 1].querySelector('[id="letter-body"]');
+
+                    nextBody.insertBefore(last, nextBody.firstChild);
+                    changed = true;
+                }
+
+                // Pull up
+                if (i < document.querySelectorAll('#page, .extra-page').length - 1) {
+                    const nextPages = document.querySelectorAll('#page, .extra-page');
+                    const nextBody = nextPages[i + 1].querySelector('[id="letter-body"]');
+
+                    while (nextBody.firstChild) {
+                        let first = nextBody.firstChild;
+                        body.appendChild(first);
+                        if (body.scrollHeight > body.clientHeight) {
+                            nextBody.insertBefore(first, nextBody.firstChild);
+                            break;
+                        }
+                        changed = true;
+                    }
+
+                    // Clean up empty extra pages at the end
+                    const txt = nextBody.textContent.trim();
+                    const imgs = nextBody.querySelectorAll('img').length;
+                    if (txt === '' && imgs === 0) {
+                        if (i + 1 === nextPages.length - 1) {
+                            nextPages[i + 1].remove();
+                            updatePageNumbers();
+                        }
+                    }
+                }
+            }
+
+            if (changed && savedSel) {
+                try {
+                    const r = document.createRange();
+                    r.setStart(savedSel.sc, savedSel.so);
+                    r.setEnd(savedSel.ec, savedSel.eo);
+                    sel.removeAllRanges();
+                    sel.addRange(r);
+                } catch (e) { }
+            }
+        }
+
+        document.addEventListener('input', function (e) {
+            if (e.target && e.target.id === 'letter-body') {
+                autoPaginate();
+            }
+        });
+
+        /* â”€â”€â”€ ADD HANDLES (called once at creation) â”€â”€â”€ */
+        function addHandles(el) {
+            // Resize handles
+            ['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se'].forEach(pos => {
+                const rh = document.createElement('div');
+                rh.className = 'rh ' + pos;
+                rh.addEventListener('mousedown', e => { e.stopPropagation(); startResize(e, el, pos); });
+                el.appendChild(rh);
+            });
+            // Rotate
+            const rot = document.createElement('div');
+            rot.className = 'rot-h';
+            rot.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 7v6h-6M3 17a9 9 0 019-9 9 9 0 016 2.3L21 13"/></svg>';
+            rot.addEventListener('mousedown', e => { e.stopPropagation(); startRotate(e, el); });
+            el.appendChild(rot);
+            // Delete
+            const del = document.createElement('div');
+            del.className = 'del-h';
+            del.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+            del.addEventListener('click', e => { e.stopPropagation(); e.preventDefault(); deleteEl(el); });
+            del.addEventListener('mousedown', e => e.stopPropagation());
+            el.appendChild(del);
+        }
+
+        /* â”€â”€â”€ ATTACH DRAG BEHAVIOR â”€â”€â”€ */
+        function attachBehavior(el) {
+            el.addEventListener('mousedown', e => {
+                const t = e.target;
+                if (t.classList.contains('rh') || t.classList.contains('rot-h') || t.classList.contains('del-h')) return;
+                selectEl(el);
+                if (el.contentEditable !== 'true' || e.target === el) startDrag(e, el);
+                e.stopPropagation();
+            });
+            el.addEventListener('contextmenu', e => { e.preventDefault(); selectEl(el); showCtx(e.clientX, e.clientY); });
+        }
+
+        /* â”€â”€â”€ SELECT / DESELECT â”€â”€â”€ */
+        function selectEl(el) {
+            deselectAll();
+            selectedEl = el;
+            el.classList.add('selected');
+            updateStatus();
+        }
+        function deselectAll() {
+            if (selectedEl) { selectedEl.classList.remove('selected'); selectedEl = null; updateStatus(); }
+        }
+
+        /* â”€â”€â”€ DELETE â”€â”€â”€ */
+        function deleteEl(el) {
+            if (!el) return;
+            if (selectedEl === el) selectedEl = null;
+            el.remove();
+            updateStatus();
+            saveUndo();
+        }
+        function deleteSelected() {
+            if (selectedEl) deleteEl(selectedEl);
+        }
+
+        /* â”€â”€â”€ DRAG â”€â”€â”€ */
+        function startDrag(e, el) {
+            const sx = e.clientX / currentZoom, sy = e.clientY / currentZoom;
+            const oL = parseInt(el.style.left) || 0, oT = parseInt(el.style.top) || 0;
+            function mv(ev) {
+                el.style.left = Math.max(0, oL + (ev.clientX / currentZoom - sx)) + 'px';
+                el.style.top = Math.max(0, oT + (ev.clientY / currentZoom - sy)) + 'px';
+            }
+            function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); saveUndo(); }
+            document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
+            e.preventDefault();
+        }
+
+        /* â”€â”€â”€ RESIZE â”€â”€â”€ */
+        function startResize(e, el, handle) {
+            e.preventDefault();
+            const sx = e.clientX / currentZoom, sy = e.clientY / currentZoom;
+            const oW = el.offsetWidth, oH = el.offsetHeight;
+            const oL = parseInt(el.style.left) || 0, oT = parseInt(el.style.top) || 0;
+            function mv(ev) {
+                const dx = ev.clientX / currentZoom - sx, dy = ev.clientY / currentZoom - sy;
+                let nW = oW, nH = oH, nL = oL, nT = oT;
+                if (handle.includes('e')) nW = Math.max(40, oW + dx);
+                if (handle.includes('s')) nH = Math.max(30, oH + dy);
+                if (handle.includes('w')) { nW = Math.max(40, oW - dx); nL = oL + (oW - nW); }
+                if (handle.includes('n')) { nH = Math.max(30, oH - dy); nT = oT + (oH - nH); }
+                el.style.width = nW + 'px'; el.style.height = nH + 'px';
+                el.style.left = nL + 'px'; el.style.top = nT + 'px';
+            }
+            function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); saveUndo(); }
+            document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
+        }
+
+        /* â”€â”€â”€ ROTATE â”€â”€â”€ */
+        function startRotate(e, el) {
+            e.preventDefault();
+            const rect = el.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+            function mv(ev) {
+                const angle = Math.atan2(ev.clientY - cy, ev.clientX - cx) * (180 / Math.PI) + 90;
+                const t = (el.style.transform || '').replace(/rotate\([^)]+\)/g, '').trim();
+                el.style.transform = t + ' rotate(' + angle + 'deg)';
+            }
+            function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); saveUndo(); }
+            document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
+        }
+
+        /* â”€â”€â”€ ALIGNMENT â”€â”€â”€ */
+        function alignEl(dir) {
+            if (!selectedEl) return;
+            const pw = page.offsetWidth, ew = selectedEl.offsetWidth;
+            if (dir === 'left') selectedEl.style.left = '26px';
+            if (dir === 'center') selectedEl.style.left = ((pw - ew) / 2) + 'px';
+            if (dir === 'right') selectedEl.style.left = (pw - ew - 26) + 'px';
+            saveUndo();
+        }
+
+        /* â”€â”€â”€ LAYER â”€â”€â”€ */
+        function layerEl(dir) {
+            if (!selectedEl) return;
+            const z = parseInt(selectedEl.style.zIndex) || zTop;
+            selectedEl.style.zIndex = dir === 'up' ? z + 1 : Math.max(2, z - 1);
+            saveUndo();
+        }
+
+        /* â”€â”€â”€ CONTEXT MENU â”€â”€â”€ */
+        function showCtx(x, y) { ctxMenu.style.cssText = 'display:block;left:' + x + 'px;top:' + y + 'px;'; }
+        function ctxDo(a) {
+            ctxMenu.style.display = 'none';
+            if (!selectedEl) return;
+            if (a === 'left' || a === 'center' || a === 'right') alignEl(a);
+            else if (a === 'fwd') layerEl('up');
+            else if (a === 'bwd') layerEl('down');
+            else if (a === 'del') deleteSelected();
+        }
+        document.addEventListener('click', () => ctxMenu.style.display = 'none');
+        page.addEventListener('mousedown', e => {
+            if (e.target === page || e.target.id === 'page-guide' || e.target.id === 'watermark') deselectAll();
+        });
+
+        /* â”€â”€â”€ PASTE (Ctrl+V) â”€â”€â”€ */
+        document.addEventListener('paste', e => {
+            const clipboardData = e.clipboardData || window.clipboardData || (e.originalEvent && e.originalEvent.clipboardData);
+            if (!clipboardData) return;
+
+            const items = clipboardData.items || [];
+            const types = clipboardData.types || [];
+
+            const activeEl = document.activeElement;
+            const tag = activeEl ? activeEl.tagName.toLowerCase() : '';
+            const isEditable = activeEl && activeEl.isContentEditable;
+
+            // If pasting into a contentEditable area and the clipboard has HTML (rich text),
+            // let the browser handle it natively to preserve ALL formatting, tables, colors, etc.
+            if (isEditable && Array.from(types).includes('text/html')) {
+                return;
+            }
+
+            let hasImage = false;
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.type.startsWith('image/')) {
+                    e.preventDefault();
+                    insertImageFile(item.getAsFile(), 170, 280);
+                    hasImage = true;
+                    break;
+                }
+            }
+
+            if (!hasImage) {
+                if (tag === 'input' || tag === 'textarea' || isEditable) {
+                    e.preventDefault();
+                    const text = clipboardData.getData('text/plain');
+                    document.execCommand('insertText', false, text);
+                }
+            }
+        });
+
+        /* â”€â”€â”€ DRAG & DROP â”€â”€â”€ */
+        page.addEventListener('dragover', e => { e.preventDefault(); page.style.outline = '3px dashed var(--green-light)'; });
+        page.addEventListener('dragleave', () => page.style.outline = 'none');
+        page.addEventListener('drop', e => {
+            e.preventDefault(); page.style.outline = 'none';
+            const r = page.getBoundingClientRect();
+            const dx = (e.clientX - r.left) / currentZoom, dy = (e.clientY - r.top) / currentZoom;
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                for (const f of files) if (f.type.startsWith('image/')) insertImageFile(f, dx - 100, dy - 75);
+            } else {
+                const url = e.dataTransfer.getData('URL') || e.dataTransfer.getData('text/uri-list');
+                if (url) createFloatImage(url, dx - 100, dy - 75);
+            }
+        });
+
+        /* â”€â”€â”€ KEYBOARD SHORTCUTS â”€â”€â”€ */
+        document.addEventListener('keydown', e => {
+            const tag = document.activeElement.tagName.toLowerCase();
+            const editing = tag === 'input' || tag === 'textarea' || document.activeElement.contentEditable === 'true';
+            if ((e.key === 'Delete' || e.key === 'Backspace') && selectedEl && !editing) { deleteSelected(); e.preventDefault(); return; }
+            if (e.ctrlKey && e.key === 'p') { e.preventDefault(); exportPDF(); return; }
+            if (e.ctrlKey && !e.shiftKey && e.key === 'z') { e.preventDefault(); doUndo(); return; }
+            if ((e.ctrlKey && e.key === 'y') || (e.ctrlKey && e.shiftKey && e.key === 'z')) { e.preventDefault(); doRedo(); return; }
+            if (e.key === 'Escape') deselectAll();
+        });
+
+        /* â”€â”€â”€ UNDO / REDO â”€â”€â”€ */
+        function getSnap() {
+            return [...page.querySelectorAll('.float-el')].map(el => ({
+                style: el.getAttribute('style'),
+                classes: el.className,
+                html: el.innerHTML,
+                isImg: el.classList.contains('float-img-el')
+            }));
+        }
+        function applySnap(snap) {
+            // Clear all pages except the first one
+            document.querySelectorAll('.extra-page').forEach(p => p.remove());
+
+            // Re-apply float elements to the first page (or all pages if saved, but currently we only save elements)
+            page.querySelectorAll('.float-el').forEach(el => el.remove());
+            snap.forEach(s => {
+                const el = document.createElement('div');
+                el.className = s.classes.replace('selected', '').trim();
+                el.setAttribute('style', s.style);
+                // Rebuild inner HTML but re-attach handles properly
+                // strip old handles from saved innerHTML
+                const tmp = document.createElement('div');
+                tmp.innerHTML = s.html;
+                tmp.querySelectorAll('.rh,.rot-h,.del-h').forEach(h => h.remove());
+                if (!s.isImg) {
+                    el.contentEditable = 'true';
+                    el.spellcheck = true;
+                    el.innerHTML = tmp.innerHTML;
+                } else {
+                    el.innerHTML = tmp.innerHTML;
+                }
+                addHandles(el);
+                attachBehavior(el);
+                page.appendChild(el);
+            });
+        }
+        function saveUndo() {
+            undoStack.push(getSnap());
+            if (undoStack.length > 50) undoStack.shift();
+            redoStack = [];
+        }
+        function doUndo() {
+            if (!undoStack.length) return;
+            redoStack.push(getSnap());
+            applySnap(undoStack.pop());
+            selectedEl = null; updateStatus();
+        }
+        function doRedo() {
+            if (!redoStack.length) return;
+            undoStack.push(getSnap());
+            applySnap(redoStack.pop());
+            selectedEl = null; updateStatus();
+        }
+
+        /* â”€â”€â”€ STATUS â”€â”€â”€ */
+        function updateStatus() {
+            const s = document.getElementById('st-el');
+            if (selectedEl) {
+                const type = selectedEl.classList.contains('float-img-el') ? 'Image' : 'Text Box';
+                s.textContent = type + ' selected Â· ' + selectedEl.offsetWidth + 'Ã—' + selectedEl.offsetHeight + 'px';
+            } else {
+                s.textContent = 'No element selected';
+            }
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+           EXPORT PDF (print dialog)
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        function exportPDF() {
+            deselectAll();
+            setTimeout(() => window.print(), 80);
+        }
+
+        /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+           EXPORT DOC (HTML â†’ Word-compatible .doc)
+           Uses Blob + data URI â€“ works without a server
+        â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+        function exportDOC() {
+            deselectAll();
+            const overlay = document.getElementById('export-overlay');
+            document.getElementById('export-msg').textContent = 'Building Word documentâ€¦';
+            overlay.classList.add('show');
+
+            setTimeout(() => {
+                try {
+                    // Grab page content
+                    const logoSrc = document.getElementById('logo-img').src;
+                    const to = document.getElementById('meta-to').value || '';
+                    const subj = document.getElementById('meta-subject').value || '';
+                    const date = document.getElementById('meta-date').value || '';
+                    const ref = document.getElementById('meta-ref').value || '';
+                    let bodyHTML = '';
+                    document.querySelectorAll('[id="letter-body"]').forEach(el => {
+                        let clone = el.cloneNode(true);
+                        let sigArea = clone.querySelector('#sig-area');
+                        if (sigArea) sigArea.remove();
+                        bodyHTML += clone.innerHTML;
+                    });
+                    const sigName = document.querySelector('.sig-name') ? document.querySelector('.sig-name').value : '';
+                    const sigTitle = document.querySelector('.sig-title') ? document.querySelector('.sig-title').value : '';
+
+                    // Build Word-compatible HTML
+                    const docHTML = `
+<!DOCTYPE html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<title>Recriq Technologies Letterhead</title>
+<!--[if gte mso 9]>
+<xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml>
+<![endif]-->
+<style>
+  @page { size: A4; margin: 18mm; }
+  body { font-family: 'Calibri',Arial,sans-serif; font-size: 11pt; color: #1e2d27; }
+  table { border-collapse: collapse; width: 100%; }
+  .hdr-table { background: #0d47a1; }
+  .hdr-cell { padding: 16px 20px; vertical-align: middle; }
+  .co-name { font-family: 'Calibri',Arial,sans-serif; font-size: 16pt; font-weight: bold; color: #ffffff; }
+  .co-tag  { font-size: 8pt; color: rgba(255,255,255,0.7); letter-spacing: 1pt; text-transform: uppercase; }
+  .contact { font-size: 8.5pt; color: rgba(255,255,255,0.88); text-align: right; line-height: 1.8; }
+  .strip { background: #64b5f6; height: 4pt; }
+  .meta-tbl td { padding: 3pt 0; font-size: 9pt; }
+  .meta-lbl { color: #1976d2; font-size: 7.5pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1pt; }
+  .divider { border-top: 1pt solid #dde6e1; margin: 6pt 0; }
+  .body-txt { font-size: 11pt; line-height: 1.75; padding: 10pt 0; }
+  .sig-tbl td { padding-top: 12pt; vertical-align: top; font-size: 9pt; }
+  .sig-lbl { font-size: 7.5pt; color: #8fa89a; font-weight: bold; text-transform: uppercase; letter-spacing: 1pt; }
+  .sig-name { font-size: 10pt; font-weight: bold; border-bottom: 1pt solid #dde6e1; padding-bottom: 2pt; margin-bottom: 2pt; }
+  .ftr-table { background: #0d47a1; margin-top: 20pt; }
+  .ftr-cell { padding: 9pt 20pt; color: rgba(255,255,255,0.8); font-size: 8.5pt; }
+</style>
+</head>
+<body>
+<!-- HEADER -->
+<table class="hdr-table" cellpadding="0" cellspacing="0">
+<tr>
+  <td class="hdr-cell" width="55%">
+    <table cellpadding="0" cellspacing="0"><tr>
+      <td style="padding-right:12pt"><img src="${logoSrc}" width="56" height="56" style="border-radius:8pt;border:0"></td>
+      <td>
+        <div class="co-name">RECRIQ TECHNOLOGIES</div>
+        <div class="co-tag">Don't Throw It -: Recycle It:- Shop No. 110, Okay Plus Square, Jaipur</div>
+      </td>
+    </tr></table>
+  </td>
+  <td class="hdr-cell contact" width="45%">
+      Shop No. 110, Okay Plus Square, Mansarovar, Jaipur - 302020<br>
+    ðŸ“ž +91 95090 99269<br>
+      info@recriqtech.com<br>
+      recriqtech.in
+  </td>
+</tr>
+</table>
+<div class="strip"></div>
+
+<!-- META -->
+<table class="meta-tbl" cellpadding="4" cellspacing="0" style="margin-top:12pt">
+<tr>
+  <td width="55%">
+    <div class="meta-lbl">To</div>
+    <div>${to}</div>
+    <br>
+    <div class="meta-lbl">Subject</div>
+    <div>${subj}</div>
+  </td>
+  <td width="45%" style="text-align:right">
+    <div class="meta-lbl">Date</div>
+    <div>${date}</div>
+    <br>
+    <div class="meta-lbl">Ref. No.</div>
+    <div>${ref}</div>
+  </td>
+</tr>
+</table>
+<div class="divider"></div>
+
+<!-- BODY -->
+<div class="body-txt">${bodyHTML}</div>
+
+<!-- SIGNATURE -->
+<table class="sig-tbl" cellpadding="0" cellspacing="0" style="margin-top:16pt;width:100%">
+<tr>
+  <td width="48%">
+    <div class="sig-lbl">Authorized Signatory</div>
+    <div class="sig-name">${sigName}</div>
+    <div style="font-size:8.5pt;color:#8fa89a;font-style:italic">${sigTitle}</div>
+  </td>
+  <td width="4%"></td>
+  <td width="48%" style="text-align:right">
+    <div class="sig-lbl">On Behalf Of</div>
+    <div class="sig-name">RECRIQ TECHNOLOGIES PRIVATE LIMITED</div>
+    <div style="font-size:8.5pt;color:#8fa89a;font-style:italic">Shop No. 110, Okay Plus Square, Mansarovar, Jaipur - 302020</div>
+  </td>
+</tr>
+</table>
+
+<!-- FOOTER -->
+<table class="ftr-table" cellpadding="0" cellspacing="0" style="margin-top:24pt">
+<tr>
+  <td class="ftr-cell" width="40%">Committed to a greener tomorrow</td>
+  <td class="ftr-cell" style="text-align:right;width:60%">recriqtech.in &nbsp;|&nbsp; info@recriqtech.com &nbsp;|&nbsp; +91 95090 99269</td>
+</tr>
+</table>
+</body>
+</html>`;
+
+                    const blob = new Blob(['\ufeff', docHTML], { type: 'application/msword;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = 'Recriq_Letterhead.doc';
+                    document.body.appendChild(a); a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (err) {
+                    alert('Export failed: ' + err.message);
+                } finally {
+                    overlay.classList.remove('show');
+                }
+            }, 200);
+        }
+    </script>
+</body>
+
+</html>
+
+
+
