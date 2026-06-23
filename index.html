@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AATERA LOOP Battery Recycling - Letterhead Editor</title>
+    <title>Aatera Loop Battery Recycling L.L.C - Letterhead Editor</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
         rel="stylesheet">
@@ -232,9 +232,9 @@
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
         #lh-header {
             width: 100%;
-            /* Brand colors: professional blue gradient */
-            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
-            padding: 20px 26px 16px;
+            /* Brand colors: professional light greenish-grey */
+            background: linear-gradient(135deg, #f2f7f4 0%, #e8f1ec 100%);
+            padding: 20px 26px 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -251,7 +251,7 @@
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, .05);
+            background: rgba(0, 0, 0, .03);
         }
 
         #lh-header::after {
@@ -262,7 +262,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: rgba(62, 169, 107, .12);
+            background: rgba(62, 169, 107, .06);
         }
 
         .hdr-left {
@@ -273,19 +273,16 @@
         }
 
         #logo-wrap {
-            width: 110px;
-            height: 70px;
+            width: 240px;
+            height: 140px;
             flex-shrink: 0;
-            background: #ffffff;
-            border-radius: 8px;
+            background: transparent;
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            justify-content: flex-start;
             cursor: default;
             position: relative;
-            padding: 6px 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            padding: 0;
         }
 
         #logo-img {
@@ -303,7 +300,7 @@
             font-family: 'Poppins', sans-serif;
             font-size: 17px;
             font-weight: 700;
-            color: #fff;
+            color: var(--gray-800);
             letter-spacing: .4px;
             line-height: 1.2;
         }
@@ -311,7 +308,7 @@
         .hdr-tagline {
             font-size: 9.5px;
             font-weight: 400;
-            color: rgba(255, 255, 255, .68);
+            color: var(--gray-600);
             letter-spacing: 1.4px;
             text-transform: uppercase;
             margin-top: 3px;
@@ -320,6 +317,8 @@
         .hdr-right {
             text-align: right;
             z-index: 2;
+            align-self: flex-end;
+            margin-bottom: 2px;
         }
 
         .hdr-contact {
@@ -328,7 +327,7 @@
             justify-content: flex-end;
             gap: 6px;
             font-size: 10px;
-            color: rgba(255, 255, 255, .88);
+            color: var(--gray-800);
             margin-bottom: 4px;
             font-family: 'DM Sans', sans-serif;
         }
@@ -336,7 +335,7 @@
         .hdr-contact svg {
             width: 10px;
             height: 10px;
-            opacity: .75;
+            opacity: .85;
             flex-shrink: 0;
         }
 
@@ -1245,37 +1244,39 @@
                     <div id="logo-wrap">
                         <img id="logo-img"
                             src="logo.png"
-                            alt="AATERA LOOP Battery Recycling Logo">
-                    </div>
-                    <div class="hdr-company">
-                        <h1>AATERA LOOP Battery Recycling</h1>
-                        <div class="hdr-tagline">Battery Recycling</div>
+                            alt="Aatera Loop Battery Recycling L.L.C Logo">
                     </div>
                 </div>
                 <div class="hdr-right">
-                    <div class="hdr-contact">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <div class="hdr-company" style="margin-bottom: 8px;">
+                        <h1>Aatera Loop Battery Recycling L.L.C</h1>
+                    </div>
+                    <div class="hdr-contact" style="align-items: flex-start;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-top: 2px;">
                             <path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z" />
                             <circle cx="12" cy="10" r="3" />
                         </svg>
-                        RA08 TC05, JAFZA, Dubai, UAE
+                        <div style="text-align: right; line-height: 1.4;">
+                            Plot # 598-1766 - WH 17, Universal global dmcc Compound,<br>
+                            Dubai Investment Park 1, Dubai, UAE
+                        </div>
                     </div>
                     <div class="hdr-contact">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path
                                 d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 014 5.18 2 2 0 016 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L10.09 10a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 17z" />
                         </svg>
                         +971 543252882
                     </div>
                     <div class="hdr-contact">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                             <polyline points="22,6 12,13 2,6" />
                         </svg>
                         info@aatera.com
                     </div>
                     <div class="hdr-contact">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10" />
                             <line x1="2" y1="12" x2="22" y2="12" />
                             <path
@@ -1308,8 +1309,8 @@
             <div id="letter-body" contenteditable="true" spellcheck="true">
                 <p>Dear Sir/Madam,</p>
                 <p><br></p>
-                <p>We are pleased to write to you on behalf of <strong>AATERA LOOP Battery Recycling</strong>, a leading
-                    battery recycling company operating from the Jebel Ali Free Zone (JAFZA), Dubai, UAE.
+                <p>We are pleased to write to you on behalf of <strong>Aatera Loop Battery Recycling L.L.C</strong>, a leading
+                    battery recycling company operating from Dubai Investment Park 1, Dubai, UAE.
                 </p>
                 <p><br></p>
                 <p>[Write your letter content hereâ€¦]</p>
@@ -1325,12 +1326,12 @@
                     <div class="sig-block">
                         <div class="sig-lbl">Authorized Signatory</div>
                         <input class="sig-name" type="text" placeholder="Full Name">
-                        <input class="sig-title" type="text" placeholder="Designation · AATERA LOOP Battery Recycling">
+                        <input class="sig-title" type="text" placeholder="Designation · Aatera Loop Battery Recycling L.L.C">
                     </div>
                     <div class="sig-block">
                         <div class="sig-lbl">On Behalf Of</div>
-                        <input class="sig-name" type="text" value="AATERA LOOP Battery Recycling" readonly>
-                        <input class="sig-title" type="text" value="RA08 TC05, JAFZA, Dubai, UAE" readonly>
+                        <input class="sig-name" type="text" value="Aatera Loop Battery Recycling L.L.C" readonly>
+                        <input class="sig-title" type="text" value="Dubai Investment Park 1, Dubai, UAE" readonly>
                     </div>
                 </div>
             </div>
